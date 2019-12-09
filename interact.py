@@ -45,7 +45,7 @@ def set_interact_args():
                         help="重复惩罚参数，若生成的对话重复性较高，可适当提高该参数")
     parser.add_argument('--seed', type=int, default=None, help='设置种子用于生成随机数，以使得训练的结果是确定的')
     parser.add_argument('--max_len', type=int, default=25, help='每个utterance的最大长度,超过指定长度则进行截断')
-    parser.add_argument('--max_history_len', type=int, default=3, help="dialogue history的最大长度")
+    parser.add_argument('--max_history_len', type=int, default=5, help="dialogue history的最大长度")
     parser.add_argument('--no_cuda', action='store_true', help='不使用GPU进行预测')
     return parser.parse_args()
 
