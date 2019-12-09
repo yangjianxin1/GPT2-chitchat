@@ -111,7 +111,7 @@ def create_model(args, vocab_size):
     # 根据tokenizer的vocabulary调整GPT2模型的voca的大小
     model.resize_token_embeddings(vocab_size)
     logger.info('model config:\n{}'.format(model.config.to_json_string()))
-    return model, model_config.n_ctx
+    return model, model.config.to_dict().get("n_ctx")
 
 
 def preprocess_raw_data(args, tokenizer, n_ctx):

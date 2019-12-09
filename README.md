@@ -181,8 +181,8 @@ python interact.py --no_cuda --model_path path_to_your_model --max_history_len 5
 执行interact.py时，可以尝试通过指定topk、topp、repetition_penalty、max_history_len等参数，调整生成的效果
 
 ## 不足之处
-虽然使用了多轮历史对话作为response的生成条件，但是chatbot还是不能很好地掌握上下文的逻辑。比如Sample3与Sample5中，chatbot无法知道自己"是否在南京","是否去过北京"。对于下面这种重复性的提问(user重复输入一样的对话内容)，也无法给出一致的答案。
-
+虽然使用了多轮历史对话作为response的生成条件，但是chatbot还是不能很好地掌握上下文的逻辑。比如Sample3与Sample5中，chatbot无法知道自己"是否在南京","是否去过北京"。对于下面Sample6和Sample7这种重复性的提问(user重复输入一样的对话内容)，也无法给出一致的答案。
+#### Sample 6:
 |Role | Response |
 |---------|--------|
 |user | 你在干嘛 |
@@ -206,6 +206,7 @@ python interact.py --no_cuda --model_path path_to_your_model --max_history_len 5
 |user | 你在干嘛 |
 | chatbot | 我在看电视|
 
+#### Sample 7:
 |Role | Response |
 |---------|--------|
 |user | 天气怎样 |
@@ -225,27 +226,8 @@ python interact.py --no_cuda --model_path path_to_your_model --max_history_len 5
 |user | 天气怎样|
 | chatbot | 下大雨|
 
-|Role | Response |
-|---------|--------|
-|user | 天气怎样 |
-| chatbot |不错 |
-|user |天气怎样 |
-| chatbot | 挺好的 |
-|user |天气怎样 |
-| chatbot | 不错不错，挺美的 |
-|user | 天气怎样 |
-| chatbot | 我在看歌手|
-|user |天气怎样 |
-| chatbot | 不错不错 |
-|user | 天气怎样 |
-| chatbot | 下大雨，好冷啊|
-|user | 天气怎样 |
-| chatbot | 风和日丽的不要不要的|
-|user | 天气怎样|
-| chatbot | 下大雨|
-
-chatbot偶尔也会"智商离线"，生成的内容"惨不忍睹"
-
+chatbot偶尔也会"智商离线"，生成的内容"惨不忍睹"，如Sample8
+#### Sample 8:
 |Role | Response |
 |---------|--------|
 |user | 在干嘛呢 |
@@ -274,8 +256,6 @@ chatbot偶尔也会"智商离线"，生成的内容"惨不忍睹"
 - [transformers](https://github.com/huggingface/transformers)
 - [GPT2-Chinese](https://github.com/Morizeyao/GPT2-Chinese)
 - [DialoGPT:Large-Scale Generative Pre-training for Conversational Response Generation](https://arxiv.xilesou.top/pdf/1911.00536.pdf)
-
-
 
 
 
