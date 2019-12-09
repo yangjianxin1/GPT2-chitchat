@@ -171,7 +171,7 @@ python interact.py --no_cuda --model_path path_to_your_model --max_history_len 3
 |50w中文闲聊语料训练模型 | [百度网盘](https://pan.baidu.com/s/1EZMF0QcxXBeWF8HMoNpyfQ) |gi5i|闲聊语料为67M，包含50w个多轮对话，用两块1080Ti,大概跑了五六天(应该没有记错)，训练了40个epoch，最终loss在2.0左右，继续训练的话，loss应该还能继续下降。|
 
 
-模型使用方法：把下载好的模型放在model目录下(否则需要通过--model_path参数指定模型的路径)，执行如下命令:
+模型使用方法：把下载好的模型文件pytorch_model.bin和config.json放在model目录下(否则需要通过--model_path参数指定模型的路径)，执行如下命令:
 ``` bash
 python interact.py --no_cuda --model_path path_to_your_model --max_history_len 5(由于闲聊对话生成的内容长度不是很长，因此生成部分在CPU上跑速度也挺快的。根据需求调整max_history_len参数)
 ``` 
