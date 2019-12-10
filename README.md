@@ -56,12 +56,12 @@ python interact.py --no_cuda --model_path path_to_your_model --max_history_len 3
 |中文闲聊语料 | 数据集地址 |语料描述|
 |---------|--------|--------|
 |常见中文闲聊|[chinese_chatbot_corpus](https://github.com/codemayq/chinese_chatbot_corpus)|包含小黄鸡语料、豆瓣语料、电视剧对白语料、贴吧论坛回帖语料、微博语料、PTT八卦语料、青云语料等|
-|50w中文闲聊语料训练模型 | [百度网盘【提取码:jk8d】](https://pan.baidu.com/s/1mkP59GyF9CZ8_r1F864GEQ) |由作者[GaoQ1](https://github.com/GaoQ1)提供的比较高质量的闲聊数据集，整理出了50w个多轮对话的语料|
+|50w中文闲聊语料 | [百度网盘【提取码:jk8d】](https://pan.baidu.com/s/1mkP59GyF9CZ8_r1F864GEQ) |由作者[GaoQ1](https://github.com/GaoQ1)提供的比较高质量的闲聊数据集，整理出了50w个多轮对话的语料|
 
 ## 模型分享
-|模型 | 百度网盘 |提取码|模型描述|
-|---------|--------|--------|--------|
-|50w中文闲聊语料训练模型 | [百度网盘](https://pan.baidu.com/s/1EZMF0QcxXBeWF8HMoNpyfQ) |gi5i|闲聊语料为67M，包含50w个多轮对话，用两块1080Ti,大概跑了五六天(应该没有记错)，训练了40个epoch，最终loss在2.0左右，继续训练的话，loss应该还能继续下降。|
+|模型 | 百度网盘 |模型描述|
+|---------|--------|--------|
+|50w中文闲聊语料训练模型 | [百度网盘【提取码:gi5i】](https://pan.baidu.com/s/1EZMF0QcxXBeWF8HMoNpyfQ) |闲聊语料为67M，包含50w个多轮对话，用两块1080Ti,大概跑了五六天，训练了40个epoch，最终loss在2.0左右，继续训练的话，loss应该还能继续下降。|
 
 
 模型使用方法：把下载好的模型文件pytorch_model.bin和config.json放在model目录下(否则需要通过--model_path参数指定模型的路径)，执行如下命令:
