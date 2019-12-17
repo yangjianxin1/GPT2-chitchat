@@ -77,6 +77,7 @@ MMI Model也是一个基于GPT2的生成模型，将每条训练数据进行"逆
 |---------|--------|--------|
 |常见中文闲聊|[chinese_chatbot_corpus](https://github.com/codemayq/chinese_chatbot_corpus)|包含小黄鸡语料、豆瓣语料、电视剧对白语料、贴吧论坛回帖语料、微博语料、PTT八卦语料、青云语料等|
 |50w中文闲聊语料 | [百度网盘【提取码:jk8d】](https://pan.baidu.com/s/1mkP59GyF9CZ8_r1F864GEQ) |由作者[GaoQ1](https://github.com/GaoQ1)提供的比较高质量的闲聊数据集，整理出了50w个多轮对话的语料|
+
 50w中文闲聊语料的内容样例如下:
 ```
 谢谢你所做的一切
@@ -286,6 +287,8 @@ chatbot:我们不用上课的呀
 添加了MMI Model之后，效果确实提高了许多，可以看到，使用loss越小的response进行回复，对话越流畅
 
 每个Sample为完整的一段对话，为了方便阅读，每轮对话之间加上了换行符。candidate response为dialogue model生成的候选response
+
+需要指定--debug参数才会输出候选response及其loss
 #### Sample 1:
 ```
 user:你好
