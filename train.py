@@ -37,7 +37,7 @@ def setup_train_args():
     parser.add_argument('--train_raw_path', default='data/train.txt', type=str, required=False, help='原始训练语料')
     parser.add_argument('--train_tokenized_path', default='data/train_tokenized.txt', type=str,
                         required=False,
-                        help='将原始训练预料tokenize之后的数据的存放位置')
+                        help='将原始训练语料tokenize之后的数据的存放位置')
     parser.add_argument('--log_path', default='data/training.log', type=str, required=False, help='训练日志存放位置')
     parser.add_argument('--raw', action='store_true', help='是否对原始训练语料做tokenize。若尚未对原始训练语料进行tokenize，则指定该参数')
     parser.add_argument('--epochs', default=10, type=int, required=False, help='训练的轮次')
@@ -47,11 +47,17 @@ def setup_train_args():
     parser.add_argument('--log_step', default=1, type=int, required=False, help='多少步汇报一次loss')
     parser.add_argument('--gradient_accumulation', default=1, type=int, required=False, help='梯度积累')
     parser.add_argument('--max_grad_norm', default=1.0, type=float, required=False)
-    parser.add_argument('--output_dir', default='model/', type=str, required=False, help='模型输出路径')
+    parser.add_argument('--dialogue_model_output_path', default='dialogue_model/', type=str, required=False,
+                        help='对话模型输出路径')
     parser.add_argument('--pretrained_model', default='', type=str, required=False, help='预训练的GPT2模型的路径')
     parser.add_argument('--writer_dir', default='tensorboard_summary/', type=str, required=False, help='Tensorboard路径')
     parser.add_argument('--seed', type=int, default=None, help='设置种子用于生成随机数，以使得训练的结果是确定的')
     parser.add_argument('--num_workers', type=int, default=1, help="dataloader加载数据时使用的线程数量")
+    parser.add_argument('--train_mmi', action='store_true', help="若指定该参数，则训练DialoGPT的MMI模型")
+    parser.add_argument('--train_mmi_tokenized_path', default='data/train_mmi_tokenized.txt', type=str,
+                        required=False,
+                        help='将原始训练语料的每段对话翻转，然后进行tokenize之后的数据的存放位置，用于训练MMI模型')
+    parser.add_argument('--mmi_model_output_path', default='mmi_model', type=str, required=False, help='MMI模型保存路径')
     # parser.add_argument('--max_len', type=int, default=60, help='每个utterance的最大长度,超过指定长度则进行截断')
     # parser.add_argument('--max_history_len', type=int, default=4, help="dialogue history的最大长度")
     return parser.parse_args()
@@ -139,6 +145,43 @@ def preprocess_raw_data(args, tokenizer, n_ctx):
                 utterances = dialogue.split("\n")
             dialogue_ids = [tokenizer.cls_token_id]  # 每个dialogue以[CLS]开头
             for utterance in utterances:
+                dialogue_ids.extend([tokenizer.convert_tokens_to_ids(word) for word in utterance])
+                dialogue_ids.append(tokenizer.sep_token_id)  # 每个utterance之后添加[SEP]，表示utterance结束
+            # 对超过n_ctx的长度进行截断,否则GPT2模型会报错
+            dialogue_ids = dialogue_ids[:n_ctx]
+            for dialogue_id in dialogue_ids:
+                f.write(str(dialogue_id) + ' ')
+            # 最后一条记录不添加换行符
+            if dialogue_index < len(train_data) - 1:
+                f.write("\n")
+    logger.info("finish preprocessing raw data,the result is stored in {}".format(args.train_tokenized_path))
+
+
+def preprocess_mmi_raw_data(args, tokenizer, n_ctx):
+    """
+    对原始语料进行处理，将原始语料的每段对话进行翻转，然后转换为用于train MMI模型的token id，对于每个dialogue，将其处于成如下形式"[CLS]utterance N[SEP]utterance N-1[SEP]utterance N-2[SEP]"
+    :param args:
+    :param tokenizer:
+    :param n_ctx:GPT2模型的上下文窗口大小,对于超过n_ctx(n_ctx包括了特殊字符)的dialogue进行截断
+    :return:
+    """
+    logger.info("tokenizing MMI raw data,raw data path:{}, token output path:{}".format(args.train_raw_path,
+                                                                                        args.train_mmi_tokenized_path))
+    with open(args.train_raw_path, 'rb') as f:
+        data = f.read().decode("utf-8")
+    if "\r\n" in data:
+        train_data = data.split("\r\n\r\n")
+    else:
+        train_data = data.split("\n\n")
+    logger.info("there are {} dialogue in raw dataset".format(len(train_data)))
+    with open(args.train_mmi_tokenized_path, "w", encoding="utf-8") as f:
+        for dialogue_index, dialogue in enumerate(tqdm(train_data)):
+            if "\r\n" in data:
+                utterances = dialogue.split("\r\n")
+            else:
+                utterances = dialogue.split("\n")
+            dialogue_ids = [tokenizer.cls_token_id]  # 每个dialogue以[CLS]开头
+            for utterance in reversed(utterances):  # 将一段对话进行翻转
                 dialogue_ids.extend([tokenizer.convert_tokens_to_ids(word) for word in utterance])
                 dialogue_ids.append(tokenizer.sep_token_id)  # 每个utterance之后添加[SEP]，表示utterance结束
             # 对超过n_ctx的长度进行截断,否则GPT2模型会报错
@@ -275,7 +318,10 @@ def train(model, device, train_list, multi_gpu, args):
                     logger.info(str(exception))
                     raise exception
         logger.info('saving model for epoch {}'.format(epoch + 1))
-        model_path = args.output_dir + 'model_epoch{}'.format(epoch + 1)
+        if args.train_mmi:  # 当前训练MMI模型
+            model_path = join(args.mmi_model_output_path, 'model_epoch{}'.format(epoch + 1))
+        else:  # 当前训练对话模型
+            model_path = join(args.dialogue_model_output_path, 'model_epoch{}'.format(epoch + 1))
         if not os.path.exists(model_path):
             os.mkdir(model_path)
         model_to_save = model.module if hasattr(model, 'module') else model
@@ -338,14 +384,19 @@ def main():
     global pad_id
     pad_id = tokenizer.convert_tokens_to_ids(PAD)
 
-    # 创建modle的输出目录
-    if not os.path.exists(args.output_dir):
-        os.mkdir(args.output_dir)
-    # 加载dialogue GPT2模型
+    # 创建对话模型的输出目录
+    if not os.path.exists(args.dialogue_model_output_path):
+        os.mkdir(args.dialogue_model_output_path)
+    # 创建MMI模型的输出目录
+    if not os.path.exists(args.mmi_model_output_path):
+        os.mkdir(args.mmi_model_output_path)
+    # 加载GPT2模型
     model, n_ctx = create_model(args, vocab_size)
     model.to(device)
     # 对原始数据进行预处理,将原始语料转换成对应的token_id
-    if args.raw:
+    if args.raw and args.train_mmi:  # 如果当前是要训练MMI模型
+        preprocess_mmi_raw_data(args, tokenizer, n_ctx)
+    elif args.raw and not args.train_mmi:  # 如果当前是要训练对话生成模型
         preprocess_raw_data(args, tokenizer, n_ctx)
     # 是否使用多块GPU进行并行运算
     multi_gpu = False
@@ -362,8 +413,12 @@ def main():
 
     # 加载数据
     logger.info("loading traing data")
-    with open(args.train_tokenized_path, "r", encoding="utf8") as f:
-        data = f.read()
+    if args.train_mmi:  # 如果是训练MMI模型
+        with open(args.train_mmi_tokenized_path, "r", encoding="utf8") as f:
+            data = f.read()
+    else:  # 如果是训练对话生成模型
+        with open(args.train_tokenized_path, "r", encoding="utf8") as f:
+            data = f.read()
     data_list = data.split("\n")
     train_list, test_list = train_test_split(data_list, test_size=0.2, random_state=1)
     # 开始训练
