@@ -139,7 +139,7 @@ def preprocess_raw_data(args, tokenizer, n_ctx):
     logger.info("there are {} dialogue in raw dataset".format(len(train_data)))
     with open(args.train_tokenized_path, "w", encoding="utf-8") as f:
         for dialogue_index, dialogue in enumerate(tqdm(train_data)):
-            if "\r\n" in data:
+            if "\r\n" in dialogue:
                 utterances = dialogue.split("\r\n")
             else:
                 utterances = dialogue.split("\n")
@@ -176,7 +176,7 @@ def preprocess_mmi_raw_data(args, tokenizer, n_ctx):
     logger.info("there are {} dialogue in raw dataset".format(len(train_data)))
     with open(args.train_mmi_tokenized_path, "w", encoding="utf-8") as f:
         for dialogue_index, dialogue in enumerate(tqdm(train_data)):
-            if "\r\n" in data:
+            if "\r\n" in dialogue:
                 utterances = dialogue.split("\r\n")
             else:
                 utterances = dialogue.split("\n")
