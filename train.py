@@ -277,7 +277,7 @@ def train(model, device, train_list, multi_gpu, args):
         for batch_idx, input_ids in enumerate(train_dataloader):
             # 注意：GPT2模型的forward()函数，是对于给定的context，生成一个token，而不是生成一串token
             # GPT2Model的输入为n个token_id时，输出也是n个hidden_state，使用第n个hidden_state预测第n+1个token
-            input_ids.to(device)
+            input_ids = input_ids.to(device)
             # 解决在运行过程中，由于显存不足产生的cuda out of memory的问题
             try:
                 outputs = model.forward(input_ids=input_ids)
