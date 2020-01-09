@@ -1,5 +1,8 @@
 # GPT2 for Chinese chitchat
 
+## UPDATE 2020.01.09
+添加50w闲聊语料与预训练模型的GoogleDrive的下载地址
+
 ## UPDATE 2019.12.17
 基于微软的论文[DialoGPT:Large-Scale Generative Pre-training for Conversational Response Generation](https://arxiv.xilesou.top/pdf/1911.00536.pdf)添加了MMI Model(maximum mutual information scoring function),对dialogue model生成的多个response进行筛选
 
@@ -76,7 +79,7 @@ MMI Model也是一个基于GPT2的生成模型，将每条训练数据进行"逆
 |中文闲聊语料 | 数据集地址 |语料描述|
 |---------|--------|--------|
 |常见中文闲聊|[chinese_chatbot_corpus](https://github.com/codemayq/chinese_chatbot_corpus)|包含小黄鸡语料、豆瓣语料、电视剧对白语料、贴吧论坛回帖语料、微博语料、PTT八卦语料、青云语料等|
-|50w中文闲聊语料 | [百度网盘【提取码:jk8d】](https://pan.baidu.com/s/1mkP59GyF9CZ8_r1F864GEQ) |由作者[GaoQ1](https://github.com/GaoQ1)提供的比较高质量的闲聊数据集，整理出了50w个多轮对话的语料|
+|50w中文闲聊语料 | [百度网盘【提取码:jk8d】](https://pan.baidu.com/s/1mkP59GyF9CZ8_r1F864GEQ) 或 [GoogleDrive](https://drive.google.com/file/d/1nEuew_KNpTMbyy7BO4c8bXMXN351RCPp/view?usp=sharing) |由作者[GaoQ1](https://github.com/GaoQ1)提供的比较高质量的闲聊数据集，整理出了50w个多轮对话的语料|
 
 50w中文闲聊语料的内容样例如下:
 ```
@@ -99,10 +102,10 @@ MMI Model也是一个基于GPT2的生成模型，将每条训练数据进行"逆
 ## 模型分享
 闲聊语料大小为67M，包含50w个多轮对话。使用该语料训练了两个模型dialogue_model与mmi_model
 
-|模型 | 百度网盘 |模型描述|
-|---------|--------|--------|
-|dialogue_model | [百度网盘【提取码:osi6】](https://pan.baidu.com/s/1qDZ24VKLBU9GKARX9Ev65g) |使用闲聊语料训练了40个epoch，最终loss在2.0左右，继续训练的话，loss应该还能继续下降。|
-|mmi_model | [百度网盘【提取码:1j88】](https://pan.baidu.com/s/1ubXGuEvY8KmwEjIVTJVLww) |以dialogue_model作为预训练模型，使用上述闲聊语料，训练了40个epoch，最终loss在1.8-2.2之间，继续训练的话，loss也能继续下降。|
+|模型 | 百度网盘 |GoogleDrive |模型描述|
+|---------|--------|--------|--------|
+|dialogue_model | [百度网盘【提取码:osi6】](https://pan.baidu.com/s/1qDZ24VKLBU9GKARX9Ev65g) | [GoogleDrive](https://drive.google.com/drive/folders/1Ogz3eapvtvdY4VUcY9AEwMbNRivLKhri?usp=sharing) |使用闲聊语料训练了40个epoch，最终loss在2.0左右，继续训练的话，loss应该还能继续下降。|
+|mmi_model | [百度网盘【提取码:1j88】](https://pan.baidu.com/s/1ubXGuEvY8KmwEjIVTJVLww) | [GoogleDrive](https://drive.google.com/drive/folders/1oWgKXP6VG_sT_2VMrm0xL4uOqfYwzgUP?usp=sharing) |以dialogue_model作为预训练模型，使用上述闲聊语料，训练了40个epoch，最终loss在1.8-2.2之间，继续训练的话，loss也能继续下降。|
 
 ## 模型使用方法
 
