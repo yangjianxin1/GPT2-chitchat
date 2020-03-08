@@ -343,7 +343,7 @@ def evaluate(model, device, test_list, multi_gpu, args):
                                  collate_fn=collate_fn)
     with torch.no_grad():
         for batch_idx, input_ids in enumerate(test_dataloader):
-            input_ids.to(device)
+            input_ids = input_ids.to(device)
             outputs = model.forward(input_ids=input_ids)
             loss, accuracy = calculate_loss_and_accuracy(outputs, labels=input_ids, device=device)
 
