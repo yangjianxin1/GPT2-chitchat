@@ -132,17 +132,11 @@ def preprocess_raw_data(args, tokenizer, n_ctx):
                                                                                     args.train_tokenized_path))
     with open(args.train_raw_path, 'rb') as f:
         data = f.read().decode("utf-8")
-    if "\r\n" in data:
-        train_data = data.split("\r\n\r\n")
-    else:
-        train_data = data.split("\n\n")
+    train_data = data.split("\n[next]\n")
     logger.info("there are {} dialogue in raw dataset".format(len(train_data)))
     with open(args.train_tokenized_path, "w", encoding="utf-8") as f:
         for dialogue_index, dialogue in enumerate(tqdm(train_data)):
-            if "\r\n" in data:
-                utterances = dialogue.split("\r\n")
-            else:
-                utterances = dialogue.split("\n")
+            utterances = dialogue.split("\n[reply]\n")
             dialogue_ids = [tokenizer.cls_token_id]  # 每个dialogue以[CLS]开头
             for utterance in utterances:
                 dialogue_ids.extend([tokenizer.convert_tokens_to_ids(word) for word in utterance])
@@ -169,17 +163,11 @@ def preprocess_mmi_raw_data(args, tokenizer, n_ctx):
                                                                                         args.train_mmi_tokenized_path))
     with open(args.train_raw_path, 'rb') as f:
         data = f.read().decode("utf-8")
-    if "\r\n" in data:
-        train_data = data.split("\r\n\r\n")
-    else:
-        train_data = data.split("\n\n")
+    train_data = data.split("\n[next]\n")
     logger.info("there are {} dialogue in raw dataset".format(len(train_data)))
     with open(args.train_mmi_tokenized_path, "w", encoding="utf-8") as f:
         for dialogue_index, dialogue in enumerate(tqdm(train_data)):
-            if "\r\n" in data:
-                utterances = dialogue.split("\r\n")
-            else:
-                utterances = dialogue.split("\n")
+            utterances = dialogue.split("\n[reply]\n")
             dialogue_ids = [tokenizer.cls_token_id]  # 每个dialogue以[CLS]开头
             for utterance in reversed(utterances):  # 将一段对话进行翻转
                 dialogue_ids.extend([tokenizer.convert_tokens_to_ids(word) for word in utterance])
