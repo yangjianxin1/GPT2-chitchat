@@ -39,7 +39,7 @@ def set_interact_args():
                         help='模型参数')
     parser.add_argument('--log_path', default='data/interacting.log', type=str, required=False, help='interact日志存放位置')
     parser.add_argument('--voca_path', default='vocabulary/vocab_small.txt', type=str, required=False, help='选择词库')
-    parser.add_argument('--dialogue_model_path', default='dialogue_model_path/', type=str, required=False, help='对话模型路径')
+    parser.add_argument('--dialogue_model_path', default='dialogue_model/', type=str, required=False, help='对话模型路径')
     parser.add_argument('--save_samples_path', default="sample/", type=str, required=False, help="保存聊天记录的文件路径")
     parser.add_argument('--repetition_penalty', default=1.0, type=float, required=False,
                         help="重复惩罚参数，若生成的对话重复性较高，可适当提高该参数")
@@ -143,10 +143,12 @@ def main():
                 input_ids.append(tokenizer.sep_token_id)
             curr_input_tensor = torch.tensor(input_ids).long().to(device)
             generated = []
+            past = None
             # 最多生成max_len个token
             for _ in range(args.max_len):
-                outputs = model(input_ids=curr_input_tensor)
+                outputs = model(input_ids=curr_input_tensor, past=past)
                 next_token_logits = outputs[0][-1, :]
+                past = outputs[1]
                 # 对于已生成的结果generated中的每个token添加一个重复惩罚项，降低其生成概率
                 for id in set(generated):
                     next_token_logits[id] /= args.repetition_penalty
@@ -159,7 +161,7 @@ def main():
                 if next_token == tokenizer.sep_token_id:  # 遇到[SEP]则表明response生成结束
                     break
                 generated.append(next_token.item())
-                curr_input_tensor = torch.cat((curr_input_tensor, next_token), dim=0)
+                curr_input_tensor = next_token
                 # his_text = tokenizer.convert_ids_to_tokens(curr_input_tensor.tolist())
                 # print("his_text:{}".format(his_text))
             history.append(generated)

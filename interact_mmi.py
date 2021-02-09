@@ -156,11 +156,13 @@ def main():
 
             curr_input_tensors = torch.tensor(input_ids).long().to(device)
             generated = []  # 二维数组，维度为(生成的response的最大长度，batch_size)，generated[i,j]表示第j个response的第i个token的id
+            past = None
             finish_set = set()  # 标记是否所有response均已生成结束，若第i个response生成结束，即生成了sep_token_id，则将i放入finish_set
             # 最多生成max_len个token
             for _ in range(args.max_len):
-                outputs = dialogue_model(input_ids=curr_input_tensors)
+                outputs = dialogue_model(input_ids=curr_input_tensors, past=past)
                 next_token_logits = outputs[0][:, -1, :]
+                past = outputs[1]
                 # 对于已生成的结果generated中的每个token添加一个重复惩罚项，降低其生成概率
                 for index in range(args.batch_size):
                     for token_id in set([token_ids[index] for token_ids in generated]):
@@ -185,8 +187,7 @@ def main():
                 if finish_flag:
                     break
                 generated.append([token.item() for token in next_token[:, 0]])
-                # 将新生成的token与原来的token进行拼接
-                curr_input_tensors = torch.cat((curr_input_tensors, next_token), dim=-1)
+                curr_input_tensors = next_token
             candidate_responses = []  # 生成的所有候选response
             for batch_index in range(args.batch_size):
                 response = []
