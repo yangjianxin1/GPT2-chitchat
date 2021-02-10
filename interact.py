@@ -171,6 +171,7 @@ def main():
                 samples_file.write("chatbot:{}\n".format("".join(text)))
         except KeyboardInterrupt:
             if args.save_samples_path:
+                samples_file.write("\n")
                 samples_file.close()
             break
 

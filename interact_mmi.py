@@ -169,8 +169,7 @@ def main():
                         next_token_logits[index][token_id] /= args.repetition_penalty
                 next_token_logits = next_token_logits / args.temperature
                 # 对于[UNK]的概率设为无穷小，也就是说模型的预测结果不可能是[UNK]这个token
-                for next_token_logit in next_token_logits:
-                    next_token_logit[tokenizer.convert_tokens_to_ids('[UNK]')] = -float('Inf')
+                next_token_logits[:, tokenizer.convert_tokens_to_ids('[UNK]')] = -float('Inf')
                 filtered_logits = top_k_top_p_filtering(next_token_logits, top_k=args.topk, top_p=args.topp)
                 # torch.multinomial表示从候选集合中无放回地进行抽取num_samples个元素，权重越高，抽到的几率越高，返回元素的下标
                 next_token = torch.multinomial(F.softmax(filtered_logits, dim=-1), num_samples=1)
@@ -179,11 +178,7 @@ def main():
                     if token_id == tokenizer.sep_token_id:
                         finish_set.add(index)
                 # 检验是否所有的response均已生成[SEP]
-                finish_flag = True  # 是否所有的response均已生成[SEP]的token
-                for index in range(args.batch_size):
-                    if index not in finish_set:  # response批量生成未完成
-                        finish_flag = False
-                        break
+                finish_flag = len(finish_set) == args.batch_size  # 是否所有的response均已生成[SEP]的token
                 if finish_flag:
                     break
                 generated.append([token.item() for token in next_token[:, 0]])
