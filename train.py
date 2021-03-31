@@ -10,7 +10,7 @@ from datetime import datetime
 from tqdm import tqdm
 from torch.nn import DataParallel
 import logging
-from transformers.modeling_gpt2 import GPT2Config, GPT2LMHeadModel
+from transformers.models.gpt2.modeling_gpt2 import GPT2Config, GPT2LMHeadModel
 from transformers import BertTokenizer
 from os.path import join, exists
 from itertools import zip_longest, chain
@@ -112,7 +112,7 @@ def create_model(args, vocab_size):
     if args.pretrained_model:  # 如果指定了预训练的GPT2模型
         model = GPT2LMHeadModel.from_pretrained(args.pretrained_model)
     else:  # 若没有指定预训练模型，则初始化模型
-        model_config = transformers.modeling_gpt2.GPT2Config.from_json_file(args.model_config)
+        model_config = GPT2Config.from_json_file(args.model_config)
         model = GPT2LMHeadModel(config=model_config)
     # 根据tokenizer的vocabulary调整GPT2模型的voca的大小
     model.resize_token_embeddings(vocab_size)
@@ -260,7 +260,7 @@ def train(model, device, train_list, multi_gpu, args):
 
     # 设置优化器，并且在初始训练时，使用warmup策略
     optimizer = transformers.AdamW(model.parameters(), lr=args.lr, correct_bias=True)
-    scheduler = transformers.WarmupLinearSchedule(optimizer, warmup_steps=args.warmup_steps, t_total=total_steps)
+    scheduler = transformers.get_linear_schedule_with_warmup(optimizer, num_warmup_steps=args.warmup_steps, num_training_steps=total_steps)
 
     logger.info('starting training')
     # 用于统计每次梯度累计的loss
