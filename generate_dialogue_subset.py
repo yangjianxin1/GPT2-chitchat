@@ -13,7 +13,7 @@ def generate_subset():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument('--raw_data_path', default='data/train.txt', type=str, required=False, help='原始训练语料')
-    parser.add_argument('--subset_size', default=500000, type=int, required=False, help='要获取的对话数据子集的规模')
+    parser.add_argument('--subset_size', default=1000000, type=int, required=False, help='要获取的对话数据子集的规模')
     parser.add_argument('--subset_data_path', default='data', type=str, required=False,
                         help='数据子集文件路径,指定文件的父目录')
     args = parser.parse_args()
@@ -23,7 +23,7 @@ def generate_subset():
     subset_size = min(len(dialogues), args.subset_size)
 
     with open(join(args.subset_data_path, "train_{}w.txt".format(int(subset_size / 10000))), "w", encoding="utf8") as f:
-        print("generating subset,please wait a few seconds ")
+        print("generating subset,please wait a few minutes")
         for dialogue_index, dialogue in enumerate(dialogues):
             if dialogue_index >= subset_size:
                 break
@@ -64,4 +64,4 @@ def compute_dialogue_length():
 
 
 if __name__ == '__main__':
-    compute_dialogue_length()
+    generate_subset()

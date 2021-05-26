@@ -18,7 +18,7 @@ from dataset import MyDataset
 from torch.utils.data import Dataset, DataLoader
 from torch.nn import CrossEntropyLoss
 from sklearn.model_selection import train_test_split
-from train import create_model
+from train_origin import create_model
 import torch.nn.functional as F
 import copy
 
@@ -39,7 +39,7 @@ def set_interact_args():
                         help='模型参数')
     parser.add_argument('--log_path', default='data/interacting_mmi.log', type=str, required=False,
                         help='interact_mmi日志存放位置')
-    parser.add_argument('--voca_path', default='vocabulary/vocab_small.txt', type=str, required=False, help='选择词库')
+    parser.add_argument('--voca_path', default='vocab/vocab_small.txt', type=str, required=False, help='选择词库')
     parser.add_argument('--dialogue_model_path', default='dialogue_model/', type=str, required=False,
                         help='dialogue_model路径')
     parser.add_argument('--mmi_model_path', default='mmi_model/', type=str, required=False,
@@ -85,7 +85,7 @@ def create_logger(args):
 def top_k_top_p_filtering(logits, top_k=0, top_p=0.0, filter_value=-float('Inf')):
     """ Filter a distribution of logits using top-k and/or nucleus (top-p) filtering
         Args:
-            logits: logits distribution shape (vocabulary size)
+            logits: logits distribution shape (vocab size)
             top_k > 0: keep only top k tokens with highest probability (top-k filtering).
             top_p > 0.0: keep the top tokens with cumulative probability >= top_p (nucleus filtering).
                 Nucleus filtering is described in Holtzman et al. (http://arxiv.org/abs/1904.09751)
