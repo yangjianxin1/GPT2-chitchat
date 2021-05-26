@@ -38,7 +38,12 @@ python3.6、 transformers==4.2.0、pytorch==1.7.0
 - preprocess.py:数据预处理代码
 
 
-## 模型参数(详见模型的config.json文件)
+## 模型简介
+### 模型结构
+![avatar](figure/model.png)
+
+
+### 模型参数简介(详见模型的config.json文件)
 - initializer_range: 0.02
 - layer_norm_epsilon: 1e-05
 - n_ctx: 1024
@@ -139,7 +144,7 @@ python interact.py --no_cuda --model_path path_to_your_model --max_history_len 3
 |model_epoch40_50w | [百度网盘【提取码:ju6m】](https://pan.baidu.com/s/1iEu_-Avy-JTRsO4aJNiRiA) 或 [GoogleDrive](https://drive.google.com/drive/folders/1fJ6VuBp4wA1LSMpZgpe7Hgm9dbZT5bHS?usp=sharing) |使用50w多轮对话语料训练了40个epoch，loss降到2.0左右。|
 
 
-## interact.py生成样例
+## 生成样例
 #### Sample 1:
 ``` 
   user :你好啊
