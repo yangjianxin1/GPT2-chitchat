@@ -32,6 +32,8 @@ def set_args():
     parser.add_argument('--no_cuda', action='store_true', help='不使用GPU进行训练')
     parser.add_argument('--vocab_path', default='vocab/vocab.txt', type=str, required=False,
                         help='词表路径')
+    parser.add_argument('--model_config', default='config/config.json', type=str, required=False,
+                        help='设置模型参数')
     parser.add_argument('--train_path', default='data/train.pkl', type=str, required=False, help='训练集路径')
     parser.add_argument('--max_len', default=150, type=int, required=False, help='训练时，输入数据的最大长度')
 
@@ -53,7 +55,7 @@ def set_args():
                         help='预训练的模型的路径')
     # parser.add_argument('--seed', type=int, default=None, help='设置种子用于生成随机数，以使得训练的结果是确定的')
     parser.add_argument('--num_workers', type=int, default=0, help="dataloader加载数据时使用的线程数量")
-    parser.add_argument('--patience', type=int, default=0, help="用于early stopping,设为0时,不进行early stopping")
+    parser.add_argument('--patience', type=int, default=0, help="用于early stopping,设为0时,不进行early stopping.early stop得到的模型的生成效果不一定会更好。")
     parser.add_argument('--warmup_steps', type=int, default=4000, help='warm up步数')
     # parser.add_argument('--label_smoothing', default=True, action='store_true', help='是否进行标签平滑')
     parser.add_argument('--val_num', type=int, default=8000, help='验证集大小')
@@ -293,28 +295,28 @@ def train(model, logger, train_dataset, validate_dataset, args):
         train_losses.append(train_loss)
 
         # ========== validate ========== #
-        # validate_loss = validate_epoch(
-        #     model=model, validate_dataloader=validate_dataloader,
-        #     logger=logger, epoch=epoch, args=args)
-        # validate_losses.append(validate_loss)
-        #
-        # # 保存当前最好的模型
-        # if validate_loss < best_val_loss:
-        #     best_val_loss = validate_loss
-        #     logger.info('saving current best model for epoch {}'.format(epoch + 1))
-        #     model_path = join(args.save_model_path, 'best_model'.format(epoch + 1))
-        #     if not os.path.exists(model_path):
-        #         os.mkdir(model_path)
-        #     model_to_save = model.module if hasattr(model, 'module') else model
-        #     model_to_save.save_pretrained(model_path)
-        #
-        # #  如果patience=0,则不进行early stopping
-        # if args.patience == 0:
-        #     continue
-        # early_stopping(validate_loss, model)
-        # if early_stopping.early_stop:
-        #     logger.info("Early stopping")
-        #     break
+        validate_loss = validate_epoch(
+            model=model, validate_dataloader=validate_dataloader,
+            logger=logger, epoch=epoch, args=args)
+        validate_losses.append(validate_loss)
+
+        # 保存当前困惑度最低的模型，困惑度低，模型的生成效果不一定会越好
+        if validate_loss < best_val_loss:
+            best_val_loss = validate_loss
+            logger.info('saving current best model for epoch {}'.format(epoch + 1))
+            model_path = join(args.save_model_path, 'min_ppl_model'.format(epoch + 1))
+            if not os.path.exists(model_path):
+                os.mkdir(model_path)
+            model_to_save = model.module if hasattr(model, 'module') else model
+            model_to_save.save_pretrained(model_path)
+
+        #  如果patience=0,则不进行early stopping
+        if args.patience == 0:
+            continue
+        early_stopping(validate_loss, model)
+        if early_stopping.early_stop:
+            logger.info("Early stopping")
+            break
     logger.info('training finished')
     logger.info("train_losses:{}".format(train_losses))
     logger.info("validate_losses:{}".format(validate_losses))
