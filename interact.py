@@ -20,7 +20,6 @@ from dataset import MyDataset
 from torch.utils.data import Dataset, DataLoader
 from torch.nn import CrossEntropyLoss
 from sklearn.model_selection import train_test_split
-from train_origin import create_model
 import torch.nn.functional as F
 
 PAD = '[PAD]'
