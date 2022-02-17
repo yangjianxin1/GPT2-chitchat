@@ -1,0 +1,26 @@
+{
+  "train_batch_size": 2816,
+  "train_micro_batch_size_per_gpu": 88,
+  "gradient_accumulation_steps": 4,
+  "optimizer": {
+    "type": "Lamb",
+    "params": {
+      "lr": 1e-4
+    }
+  },
+  "zero_optimization":{
+    "stage":3
+  },
+  "fp16": {
+    "enabled": true
+  },
+  "scheduler": {
+    "type": "WarmupLR",
+    "params": {
+        "warmup_min_lr": 1e-6,
+        "warmup_max_lr": 1e-4,
+        "warmup_num_steps": 4000
+    }
+  },
+  "zero_allow_untested_optimizer":true
+}
