@@ -1,8 +1,25 @@
 # GPT2 for Chinese chitchat
 
+## UPDATE 2022.12.04
+发布了中文预训练CLIP模型，使用140万中文图文对数据进行预训练，在图文相似度、文本相似度、图片相似度任务上有不错的表现。文章内可获取140w中文图文对预训练数据，以及中文CLIP预训练权重。
+
+Github项目地址：[CLIP-Chinese：中文多模态对比学习CLIP预训练模型](https://github.com/yangjianxin1/CLIP-Chinese)
+
+微信公众号【YeungNLP】文章：[CLIP-Chinese：中文多模态对比学习预训练模型](https://mp.weixin.qq.com/s/6gQX91M-Lt7eiMimhYRJEw) ，文章内可获取140w中文图文对预训练数据，以及中文CLIP预训练权重。
+
+图文相似度匹配效果如下：
+
+![demo](figure/clip-demo.jpg)
+
 ## UPDATE 2021.06.16
 发布了[基于CPM模型的中文文本生成项目](https://github.com/yangjianxin1/CPM) ，可用于作文、小说、新闻、古诗等中文生成任务，并且训练和分享了中文作文生成模型，取得了不错的生成效果。
-该项目提供了数据预处理、模型训练、文本生成、Http服务等代码模块。生成效果如下：
+该项目提供了数据预处理、模型训练、文本生成、Http服务等代码模块。
+
+Github项目地址：[基于CPM模型的中文文本生成项目](https://github.com/yangjianxin1/CPM)
+
+微信公众号【YeungNLP】文章：[基于CPM的中文作文生成模型，引经据典、修辞手法，信手拈来](https://mp.weixin.qq.com/s/sFzUNtwrTvi2kAAGQ2M3UA) ，文章内可获取26w+中文作文语料。
+
+生成效果如下：
 ```
 title:家乡的四季
 context:家乡的四季,最美不过了
