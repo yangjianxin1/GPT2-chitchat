@@ -1,7 +1,7 @@
 # GPT2 for Chinese chitchat
 
 ## UPDATE 2022.12.04
-发布了中文预训练CLIP模型，使用140万中文图文对数据进行预训练，在图文相似度、文本相似度、图片相似度任务上有不错的表现。文章内可获取140w中文图文对预训练数据，以及中文CLIP预训练权重。
+发布了中文预训练CLIP模型，使用140万中文图文对数据进行预训练，在图文相似度、文本相似度、图片相似度任务上有不错的表现。
 
 Github项目地址：[CLIP-Chinese：中文多模态对比学习CLIP预训练模型](https://github.com/yangjianxin1/CLIP-Chinese)
 
