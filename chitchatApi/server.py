@@ -47,6 +47,7 @@ def model_reply():
         if len(text)>25:
             data = {"errno": 201, "msg": "输入字符过长(长度限制25）"}
             return flask.jsonify(data)
+       # 可以通过设置action，改变对模型的使用方法
         action = msg['action']
         if action=='1':
             print("模式1")
