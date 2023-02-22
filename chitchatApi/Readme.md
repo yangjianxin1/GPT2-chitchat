@@ -36,3 +36,4 @@ data = {"errno":0, "msg": text}
 >```
 >@app.route("/clear_history", methods=["post"])#退出时清除所有session
 >```
+
