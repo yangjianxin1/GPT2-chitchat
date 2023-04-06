@@ -1,60 +1,22 @@
 # GPT2 for Chinese chitchat
 
-## UPDATE 2022.12.04
-发布了中文预训练CLIP模型，使用140万中文图文对数据进行预训练，在图文相似度、文本相似度、图片相似度任务上有不错的表现。
-
-Github项目地址：[CLIP-Chinese：中文多模态对比学习CLIP预训练模型](https://github.com/yangjianxin1/CLIP-Chinese)
-
-微信公众号【YeungNLP】文章：[CLIP-Chinese：中文多模态对比学习预训练模型](https://mp.weixin.qq.com/s/6gQX91M-Lt7eiMimhYRJEw) ，文章内可获取140w中文图文对预训练数据，以及中文CLIP预训练权重。
-
-图文相似度匹配效果如下：
-
-![demo](figure/clip-demo.jpg)
-
-## UPDATE 2021.06.16
-发布了[基于CPM模型的中文文本生成项目](https://github.com/yangjianxin1/CPM) ，可用于作文、小说、新闻、古诗等中文生成任务，并且训练和分享了中文作文生成模型，取得了不错的生成效果。
-该项目提供了数据预处理、模型训练、文本生成、Http服务等代码模块。
-
-Github项目地址：[基于CPM模型的中文文本生成项目](https://github.com/yangjianxin1/CPM)
-
-微信公众号【YeungNLP】文章：[基于CPM的中文作文生成模型，引经据典、修辞手法，信手拈来](https://mp.weixin.qq.com/s/sFzUNtwrTvi2kAAGQ2M3UA) ，文章内可获取26w+中文作文语料。
-
-生成效果如下：
-```
-title:家乡的四季
-context:家乡的四季,最美不过了
-
-result:
-家乡的四季,最美不过了。家乡的四季,是令人沉醉的。
-春天,万物复苏,冰雪融化,万物复苏。树枝抽出了嫩芽,花朵绽放了笑脸,树木吐出了嫩芽,春笋也破土而出,像是迎接春天的到来。小鸟们也在枝头唱起了动听的歌曲,周围的一切都变成了春的样子。
-夏天,荷塘里的荷花开了,散发出阵阵清香。远处,山的颜色深浅不一,像是穿着一件翠绿的长裙,在荷塘的衬托下显得更加美,更加翠绿。微风拂过,荷花轻轻地摆动着,像是在和我打招呼呢!
-秋天,
-
-result:
-家乡的四季,最美不过了。
-春天,嫩芽破土而出,焕发出生机。每当春姑娘来临之际,小草就会脱下旧衣服,冲出家门,迫不及待地站在土地上,感受春风亲吻着自己的脸庞,贪婪地吸吮着甘甜的露水。春姑娘来到田野里,到处都是一片嫩绿,一派盎然的景象。柳树姑娘刚刚梳理好头发,甩动着长长的头发,伴随着阵阵春风,跳起了欢快的舞蹈。此时此刻,春雨也来凑热闹了,她滴落在溪水中,随着春风舞动起来,漾起一圈圈水纹。在河边,长满了一串串一串串鲜艳的鲜花,
-```
-
-
-
-## UPDATE 2021.05.26
-- 调整项目结构，优化代码，修改部分bug。简化生成方法，加快生成速度，删除了MMI的做法
-- 新增50w、100w的多轮对话的原始数据与预处理数据
-
-## UPDATE 2020.01.09
-添加50w闲聊语料与预训练模型的GoogleDrive的下载地址
-
-## UPDATE 2019.12.17
-~~基于微软的论文[DialoGPT:Large-Scale Generative Pre-training for Conversational Response Generation](https://arxiv.xilesou.top/pdf/1911.00536.pdf)添加了MMI Model(maximum mutual information scoring function),对dialogue model生成的多个response进行筛选~~
+## News
+公众号【YeungNLP】
+- 2023.04.05：发布[Firefly(流萤): 中文对话式大语言模型](https://github.com/yangjianxin1/Firefly) ，开源1.1M中文多任务指令数据集，以及模型权重。详情见[文章](https://mp.weixin.qq.com/s/TX7wj8IzD_EaMTvk0bjRtA)
+- 2023.04.02：发布[LLMPruner: 大语言模型裁剪工具](https://github.com/yangjianxin1/LLMPruner) ,分享裁剪方法及其裁剪后的模型权重。详情见[文章](https://mp.weixin.qq.com/s/leVtrwZc1zLput51Nr99lw) 。
+- 2023.02.13：发布[OFA-Chinese](https://github.com/yangjianxin1/OFA-Chinese) ，中文多模态统一预训练模型OFA在Image Caption任务上的应用。详情见[文章](https://mp.weixin.qq.com/s/thRbR1i6cZk8zUz3y2mq6g) 。
+- 2022.12.04: 发布[CLIP-Chinese](https://github.com/yangjianxin1/CLIP-Chinese) ，中文CLIP预训练模型。使用140万中文图文对数据进行预训练，在图文相似度、文本相似度、图片相似度任务上有不错的表现。详情见[文章](https://mp.weixin.qq.com/s/6gQX91M-Lt7eiMimhYRJEw) 。
+- 2022.03.30：发布[ClipCap-Chinese](https://github.com/yangjianxin1/ClipCap-Chinese) ，一种基于CLIP模型的Image Caption模型。详情见[文章](https://mp.weixin.qq.com/s/Mofjqi0ErSdRqRyP9gq6Zw) 。
+- 2021.06.16：发布[CPM中文文本生成项目](https://github.com/yangjianxin1/CPM) 。可用于作文、小说、新闻、古诗等中文生成任务。详情见[文章](https://mp.weixin.qq.com/s/sFzUNtwrTvi2kAAGQ2M3UA) 。
+- 2021.05.26：新增50w、100w的多轮对话的原始数据与预处理数据。
 
 
 ## 项目描述
-- 本项目是基于GPT2的中文闲聊机器人，模型实现基于HuggingFace的[transformers](https://github.com/huggingface/transformers)。
-- 本项目受 [GPT2-Chinese](https://github.com/Morizeyao/GPT2-Chinese)启发，精读作者的代码，获益匪浅。
+- 本项目是基于GPT2的中文闲聊机器人，模型实现基于HuggingFace的[transformers](https://github.com/huggingface/transformers) 。文章：
+- 本项目受 [GPT2-Chinese](https://github.com/Morizeyao/GPT2-Chinese) 的启发，精读作者的代码，获益匪浅。
 - 在生成阶段，使用了Temperature、Top-k Sampling和Nucleus Sampling等，可参考论文[The Curious Case of Neural Text Degeneration](https://arxiv.xilesou.top/pdf/1904.09751.pdf)
-- ~~根据微软的DialoGPT的思想，在项目中添加了互信息。训练了两个模型:Dialogue Model与MMI Model(maximum mutual information scoring function)。首先使用Dialogue Model生成多个候选response，然后使用MMI Model从候选response中，选取loss最小的作为最终的response~~
-- 代码中给出了许多详细的中文注释，方便大家更好地理解代码(部分代码或注释可能有误，望大家不吝赐教)
-- **本项目被[微软的DialoGPT项目](https://github.com/microsoft/DialoGPT)引用**（为了简化生成方法，加快生成速度，删除了MMI的生成方法）
+- 代码中给出了许多详细的中文注释，方便大家更好地理解代码
+- 本项目被[微软的DialoGPT项目](https://github.com/microsoft/DialoGPT) 引用 （为了简化生成方法，加快生成速度，删除了MMI的生成方法）
 
 ## 运行环境
 python3.6、 transformers==4.2.0、pytorch==1.7.0
@@ -184,6 +146,9 @@ python interact.py --no_cuda --model_path path_to_your_model --max_history_len 3
 |---------|--------|--------|
 |model_epoch40_50w | [百度网盘【提取码:ju6m】](https://pan.baidu.com/s/1iEu_-Avy-JTRsO4aJNiRiA) 或 [GoogleDrive](https://drive.google.com/drive/folders/1fJ6VuBp4wA1LSMpZgpe7Hgm9dbZT5bHS?usp=sharing) |使用50w多轮对话语料训练了40个epoch，loss降到2.0左右。|
 
+## 关注我们
+
+<img src="figure/gongzhonghao.jpeg" width="250"> 
 
 ## 生成样例
 #### Sample 1:
