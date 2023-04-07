@@ -272,7 +272,6 @@ chatbot:我们不用上课的呀
 ```
 
 ## TODO
-- 多卡并行训练负载不均衡的问题
 
 ## Reference
 - [The Curious Case of Neural Text Degeneration](https://arxiv.xilesou.top/pdf/1904.09751.pdf)
