@@ -67,9 +67,9 @@ python3.6、 transformers==4.2.0、pytorch==1.7.0
 ### Quick Start
 在[模型分享](#model_share)中下载模型，将模型文件夹model_epoch40_50w放到model目录下，执行如下命令，进行对话
 ```
-python interact.py --no_cuda --model_path model_epoch40_50w (使用cpu生成，速度相对较慢)
+python interact.py --no_cuda --model_path ./model/model_epoch40_50w (使用cpu生成，速度相对较慢)
 或
-python interact.py --model_path model_epoch40_50w --device 0 (指定0号GPU进行生成，速度相对较快)
+python interact.py --model_path ./model/model_epoch40_50w --device 0 (指定0号GPU进行生成，速度相对较快)
 ```
 
 
