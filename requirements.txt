@@ -1,4 +1,4 @@
-transformers==4.4.2
+transformers==4.30.0
 pytorch==1.7.0
 sklearn
 tqdm
