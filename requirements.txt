@@ -3,4 +3,4 @@ pytorch==1.7.0
 sklearn
 tqdm
 numpy
-scipy==1.2.1
+scipy==1.10.0
